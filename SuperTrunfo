@@ -1,0 +1,73 @@
+#include <stdio.h>
+#include <string.h>
+
+// Estrutura para armazenar informações de uma carta
+typedef struct {
+    char estado[50];        // Nome do estado
+    int codigo;             // Código da cidade
+    char nomeCidade[50];    // Nome da cidade
+    long populacao;         // População da cidade
+    double pib;             // PIB da cidade em milhões
+    double area;            // Área da cidade em km²
+    int pontosTuristicos;   // Número de pontos turísticos
+
+    // Propriedades derivadas
+    double densidade;       // Densidade populacional (população / área)
+    double pibPerCapita;    // PIB per capita (pib / população)
+} Carta;
+
+// Função para cadastrar uma carta
+void cadastrarCarta(Carta *c) {
+    printf("Digite o nome do estado: ");
+    fgets(c->estado, 50, stdin);
+    c->estado[strcspn(c->estado, "\n")] = 0; // Remove o '\n' que o fgets captura
+
+    printf("Digite o código da cidade: ");
+    scanf("%d", &c->codigo);
+    getchar(); // Limpar o buffer do teclado
+
+    printf("Digite o nome da cidade: ");
+    fgets(c->nomeCidade, 50, stdin);
+    c->nomeCidade[strcspn(c->nomeCidade, "\n")] = 0;
+
+    printf("Digite a população da cidade: ");
+    scanf("%ld", &c->populacao);
+
+    printf("Digite o PIB da cidade (em milhões): ");
+    scanf("%lf", &c->pib);
+
+    printf("Digite a área da cidade (em km²): ");
+    scanf("%lf", &c->area);
+
+    printf("Digite o número de pontos turísticos: ");
+    scanf("%d", &c->pontosTuristicos);
+
+    // Cálculo das propriedades derivadas
+    c->densidade = c->populacao / c->area;
+    c->pibPerCapita = (c->pib * 1000000) / c->populacao; // Convertendo milhões para unidades
+}
+
+// Função para exibir uma carta
+void mostrarCarta(Carta c) {
+    printf("\n--- Carta da cidade ---\n");
+    printf("Estado: %s\n", c.estado);
+    printf("Código: %d\n", c.codigo);
+    printf("Cidade: %s\n", c.nomeCidade);
+    printf("População: %ld\n", c.populacao);
+    printf("PIB: %.2f milhões\n", c.pib);
+    printf("Área: %.2f km²\n", c.area);
+    printf("Pontos turísticos: %d\n", c.pontosTuristicos);
+    printf("Densidade populacional: %.2f habitantes/km²\n", c.densidade);
+    printf("PIB per capita: %.2f\n", c.pibPerCapita);
+}
+
+int main() {
+    Carta minhaCarta;
+
+    printf("Cadastro de carta para o Super Trunfo - Países\n");
+    cadastrarCarta(&minhaCarta);  // Chama a função de cadastro
+
+    mostrarCarta(minhaCarta);     // Exibe a carta cadastrada
+
+    return 0;
+}
